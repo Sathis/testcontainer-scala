@@ -12,19 +12,16 @@ class MsSqlServerSpec extends AnyFlatSpec with ForAllTestContainer with BeforeAn
 
   override def beforeAll() {
     container.container.withInitScript("init.sql")
-  }
-
-  override def afterStart(): Unit = {
-    container.container.withInitScript("init.sql")
     container.container.acceptLicense()
   }
+
 
   it should "count no of records in Region" in {
 
     val rs = performQuery(container, "SELECT count(*) from Sales.Region")
-    val count = rs.getInt(1);
+    val count = rs.getInt(1)
 
-    assert(1 == count, "A basic SELECT query succeeds");
+    assert(1 == count, "A basic SELECT query succeeds")
 
   }
 
