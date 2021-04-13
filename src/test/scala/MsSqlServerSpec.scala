@@ -3,11 +3,16 @@ import java.sql.{DriverManager, ResultSet, SQLException, Statement}
 import com.dimafeng.testcontainers.{ForAllTestContainer, JdbcDatabaseContainer, MSSQLServerContainer}
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
 import javax.sql.DataSource
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpec
 
-class MsSqlServerSpec extends AnyFlatSpec with ForAllTestContainer {
+class MsSqlServerSpec extends AnyFlatSpec with ForAllTestContainer with BeforeAndAfterAll {
 
   override val container: MSSQLServerContainer = MSSQLServerContainer()
+
+  override def beforeAll {
+    container.container.withInitScript("init.sql")
+  }
 
   override def afterStart(): Unit = {
     container.container.withInitScript("init.sql")
